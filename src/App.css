@@ -1,0 +1,142 @@
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.company-table-wrapper {
+  margin: 5%;
+  width: 40%;
+}
+
+.company-table-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 16px;
+}
+
+.company-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.company-table th,
+.company-table td {
+  border: 1px solid black;
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.company-table-current-company {
+  background-color: none;
+}
+
+.company-table-current-company-active {
+  background-color: antiquewhite;
+}
+
+.employee-table-current-company {
+  background-color: none;
+}
+
+.employee-table-current-company-active {
+  background-color: antiquewhite;
+}
+
+.employee-table-wrapper {
+  margin: 5% 0;
+  width: 40%;
+}
+
+.employee-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.employee-table th,
+.employee-table td {
+  border: 1px solid black;
+  padding-bottom: 8px;
+  text-align: center;
+}
+.add-modal {
+  display: none;
+}
+
+.add-modal-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(180, 218, 132);
+  top: 35%;
+  left: 35vw;
+  border: 1px solid black;
+  width: 460px;
+  height: 200px;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-modal-content span {
+  margin-bottom: 22px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.add-modal-content form {
+  display: flex;
+  width: 40%;
+  text-align: center;
+  flex-direction: column;
+}
+
+.add-modal-content input {
+  margin-bottom: 10px;
+}
+
+.error-add-modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 40%;
+  left: 45%;
+  width: 200px;
+  height: 100px;
+  background-color: rgb(240, 176, 234);
+  text-align: center;
+  font-size: 18px;
+}
+
+.error-add-modal button {
+  width: 40px;
+  height: 30px;
+  margin: 10px auto;
+}
+
+.company-table-company-name.editable,
+.company-table-address.editable {
+  background-color: rgb(157, 216, 165);
+  cursor: pointer;
+}
+
+.company-table-company-name.editable:hover,
+.company-table-address.editable:hover {
+  background-color: rgb(61, 150, 73);
+}
+
+.company-table-employees.non-editable {
+  background-color: rgb(226, 226, 226);
+  color: rgb(194, 193, 193);
+  pointer-events: none;
+}
+
+.error-add-modal-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.main-space-wrapper {
+  display: flex;
+}
