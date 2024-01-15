@@ -29,39 +29,49 @@ export default function EmployeesTableCell({
   const dispatch: AppDispatch = useDispatch();
 
   const handleUpdateEmployee = () => {
-    if (editable) {
-      const foundCompany = selectedCompanies.find((company) =>
+    const findCompany = () => {
+      if (!editable) return;
+      const result = selectedCompanies.find((company) =>
         company.employees.some((employee) => employee.id === id)
       );
 
-      if (foundCompany) {
-        const updatedEmployees: Employees[] = foundCompany.employees.map(
-          (employee) => {
-            if (employee.id === id) {
-              const updatedEmployee: Employees = { ...employee };
+      return result;
+    };
 
-              for (const key in updatedEmployee) {
-                if (updatedEmployee[key as keyof Employees] === data) {
-                  updatedEmployee[key as keyof Employees] =
-                    newDataField as never;
-                  break;
-                }
-              }
+    const findEmployee = () => {
+      if (!findCompany()) return;
+      const result: Employees | undefined = findCompany()?.employees.find(
+        (employee) => employee.id === id
+      );
 
-              return updatedEmployee;
-            }
-            return employee;
-          }
-        );
+      return result;
+    };
 
-        const updatedCompany = {
-          ...foundCompany,
-          employees: updatedEmployees,
-        };
+    const copyEmployee = { ...findEmployee() };
 
-        dispatch(updateEmployeeField(updatedCompany));
+    const updateCurrentEmployeeCell = () => {
+      for (const employee in copyEmployee) {
+        if (copyEmployee[employee as keyof Employees] === data) {
+          copyEmployee[employee as keyof Employees] = newDataField; // ???
+        }
       }
-    }
+    };
+    updateCurrentEmployeeCell();
+
+    const updateEmployeeInCompany = () => {
+      const result = findCompany()?.employees.map((employee) =>
+        employee.id === id ? copyEmployee : employee
+      );
+
+      return result
+    };
+
+    const updatedCompany = {
+      ...findCompany(),
+      employees: updateEmployeeInCompany(),
+    };
+
+    dispatch(updateEmployeeField(updatedCompany))
   };
   return (
     <td

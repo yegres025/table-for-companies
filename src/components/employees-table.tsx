@@ -23,13 +23,13 @@ export default function EmployeesTable({
     [key: number]: boolean;
   }>([]);
   const [isHeaderChecked, setIsHeaderChecked] = useState<boolean>(false);
-
   const handleChangeCheckbox = (id: number) => {
     setCheckedEmployeeIds((prevCheckedEmployeeIds) => ({
       ...prevCheckedEmployeeIds,
       [id]: !prevCheckedEmployeeIds[id],
     }));
   };
+
 
   const handleCheckboxHeaderChange = () => {
     const newCheckedState = !isHeaderChecked;
@@ -87,7 +87,10 @@ export default function EmployeesTable({
           </button>
         </div>
         {selectedCompanies.map((company) => (
-          <div key={company.id} className='company-employees'>
+          <div
+            key={company.id}
+            className='company-employees'
+          >
             <h3>{company.name}</h3>
             <table className='employee-table'>
               <thead>

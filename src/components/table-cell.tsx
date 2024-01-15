@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch } from '../store';
-import { Employees, InitialState } from '../store/companies-slice';
+import { InitialState, Company } from '../store/companies-slice';
 import { updateCompanyField } from '../store/companies-slice';
-
 interface TableCellProps {
   className: string;
   item: string | number;
@@ -24,21 +23,29 @@ export default function TableCell({
   );
 
   const handleUpdate = () => {
-    if (editable) {
-      const currentCompany = companies.find((company) => company.id === id);
+    if (!editable) return
+    
+    const findCompany =() => {
+      const result = companies.find((company) => company.id === id);
+      return result
+    }
 
-      const updateCompany: { [key: string]: string | number | Employees[] } = {
-        ...currentCompany,
+      const copyCompany: Company | undefined = {
+        ...findCompany()!,
       };
 
-      for (const key in updateCompany) {
-        if (updateCompany[key] === item) {
-          updateCompany[key] = newDataField;
-        }
-      }
 
-      dispatch(updateCompanyField(updateCompany));
-    }
+      const updateCurrentCompanyCell = () => {
+        for (const key in copyCompany) {
+          if (copyCompany[key as keyof Company] === item) {
+            copyCompany[key as keyof Company] = newDataField; // ??? 
+          }
+        }
+      } 
+      updateCurrentCompanyCell()
+
+      dispatch(updateCompanyField(copyCompany));
+    
   };
 
   const [updateCell, setUpdateCell] = useState<boolean>(false);

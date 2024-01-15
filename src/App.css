@@ -46,6 +46,7 @@ body {
 .employee-table-wrapper {
   margin: 5% 0;
   width: 40%;
+
 }
 
 .employee-table {
@@ -139,4 +140,10 @@ body {
 
 .main-space-wrapper {
   display: flex;
+}
+
+.company-employees {
+  margin-top: 40px;
+  max-height: 500px;
+  overflow-y: auto;
 }

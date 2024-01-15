@@ -7,8 +7,9 @@ export interface Employees {
   position: string;
 }
 
-interface Company {
-  name: string;
+export interface Company {
+  find?(arg0: string): unknown;
+  name?: string;
   employees: Employees[];
   address: string;
   id: number;
@@ -47,17 +48,17 @@ const companiesReducer = createSlice({
     },
     addCompany(state, action) {
       if (action.payload) {
-        state.companies = [...state.companies, action.payload];
+        state.companies.push(action.payload);
       }
     },
     updateCompanyField(state, action) {
       const newStateCompany = action.payload;
-      console.log(newStateCompany);
-
-      const currentIndex = state.companies.findIndex(
-        (company) => company.id === newStateCompany.id
+    
+      const updatedCompanies = state.companies.map((company) =>
+        company.id === newStateCompany.id ? newStateCompany : company
       );
-      state.companies[currentIndex] = newStateCompany;
+    
+      state.companies = updatedCompanies;
     },
     addSelectedCompanies(state, action) {
       const selectedCompaniesIds = action.payload;
@@ -68,88 +69,45 @@ const companiesReducer = createSlice({
     },
     deleteEmployee(state, action) {
       const { companyId, employeeId } = action.payload;
-
-      const updatedCompanies = state.companies.map((company) => {
-        if (company.id === companyId) {
-          return {
-            ...company,
-            employees: company.employees.filter(
-              (employee) => employee.id !== employeeId
-            ),
-          };
-        }
-        return company;
+    
+      const removeEmployee = (company: Company) => ({
+        ...company,
+        employees: company.employees.filter((employee) => employee.id !== employeeId),
       });
-
-      const updatedSelectedCompanies = state.selectedCompanies.map(
-        (company) => {
-          if (company.id === companyId) {
-            return {
-              ...company,
-              employees: company.employees.filter(
-                (employee) => employee.id !== employeeId
-              ),
-            };
-          }
-          return company;
-        }
+    
+      state.companies = state.companies.map((company) =>
+        company.id === companyId ? removeEmployee(company) : company
       );
-
-      return {
-        ...state,
-        companies: updatedCompanies,
-        selectedCompanies: updatedSelectedCompanies,
-      };
+    
+      state.selectedCompanies = state.selectedCompanies.map((company) =>
+        company.id === companyId ? removeEmployee(company) : company
+      );
     },
-    addEmployee(state, action) {
+    addEmployee: (state, action) => {
       const newEmployee = action.payload;
       const companyId = newEmployee.companyId;
 
-      const updatedCompanies = state.companies.map((company) => {
+      state.companies.forEach((company) => {
         if (company.id === companyId) {
-          return {
-            ...company,
-            employees: [...company.employees, newEmployee],
-          };
+          company.employees.push(newEmployee);
         }
-        return company;
       });
 
-      const updatedSelectedCompanies = state.selectedCompanies.map(
-        (company) => {
-          if (company.id === companyId) {
-            return {
-              ...company,
-              employees: [...company.employees, newEmployee],
-            };
-          }
-          return company;
+      state.selectedCompanies.forEach((company) => {
+        if (company.id === companyId) {
+          company.employees.push(newEmployee);
         }
-      );
-
-      return {
-        ...state,
-        companies: updatedCompanies,
-        selectedCompanies: updatedSelectedCompanies,
-      };
+      });
     },
     updateEmployeeField(state, action) {
       const updatedCompany = action.payload;
-
-      state.companies = state.companies.map((company) => {
-        if (company.id === updatedCompany.id) {
-          return updatedCompany;
-        }
-        return company;
-      });
-
-      state.selectedCompanies = state.selectedCompanies.map(
-        (selectedCompany) => {
-          if (selectedCompany.id === updatedCompany.id) {
-            return updatedCompany;
-          }
-          return selectedCompany;
-        }
+            
+      state.companies = state.companies.map((company) =>
+        company.id === updatedCompany.id ? updatedCompany : company
+      );
+    
+      state.selectedCompanies = state.selectedCompanies.map((selectedCompany) =>
+        selectedCompany.id === updatedCompany.id ? updatedCompany : selectedCompany
       );
     },
   },
