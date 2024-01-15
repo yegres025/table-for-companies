@@ -13,15 +13,11 @@ interface EmployeesTableProps {
 }
 
 export default function EmployeesTable({
-  onSetPlaceholder,
-}: EmployeesTableProps) {
+  onSetPlaceholder}: EmployeesTableProps) {
   const dispatch: AppDispatch = useDispatch();
   const { selectedCompanies, editable, activeModal } = useSelector(
-    (state: { companies: InitialState }) => state.companies
-  );
-  const [checkedEmployeeIds, setCheckedEmployeeIds] = useState<{
-    [key: number]: boolean;
-  }>([]);
+    (state: { companies: InitialState }) => state.companies);
+  const [checkedEmployeeIds, setCheckedEmployeeIds] = useState<{[key: number]: boolean;}>([]);
   const [isHeaderChecked, setIsHeaderChecked] = useState<boolean>(false);
   const handleChangeCheckbox = (id: number) => {
     setCheckedEmployeeIds((prevCheckedEmployeeIds) => ({
@@ -45,6 +41,7 @@ export default function EmployeesTable({
     }
   };
 
+
   const handleButtonDeleteEmployee = () => {
     const companyId = selectedCompanies.find((company) => company.id)?.id;
     const employeeIds = Object.keys(checkedEmployeeIds).map(Number);
@@ -58,6 +55,7 @@ export default function EmployeesTable({
     setCheckedEmployeeIds({});
   };
 
+  
   if (selectedCompanies.length >= 1) {
     return (
       <div className='employee-table-wrapper'>

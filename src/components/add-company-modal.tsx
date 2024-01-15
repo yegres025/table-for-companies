@@ -23,8 +23,7 @@ export default function AddCompanyModal({
   currentPlaceholder,
 }: AddCompanyModalProp) {
   const { activeModal, selectedCompanies } = useSelector(
-    (state: { companies: InitialState }) => state.companies
-  );
+    (state: { companies: InitialState }) => state.companies);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -32,6 +31,7 @@ export default function AddCompanyModal({
   const [secondArea, setSecondArea] = useState<string>('');
   const [thirdArea, setThirdArea] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
+
 
   const handleSubmitAddItem = () => {
     if (firstArea && secondArea && thirdArea) {

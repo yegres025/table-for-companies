@@ -23,8 +23,7 @@ export default function CompanyTable({onSetPlaceholder}: CompanyTableProp) {
   const [companiesToDeleteIds, setCompaniesToDeleteIds] = useState<number[]>([]);
 
   const { companies, editable, activeModal } = useSelector(
-    (state: { companies: InitialState }) => state.companies
-  );
+    (state: { companies: InitialState }) => state.companies);
 
   const handleCheckboxChange = (id: number) => {
     setCheckedItems({
@@ -33,13 +32,14 @@ export default function CompanyTable({onSetPlaceholder}: CompanyTableProp) {
     });
   };
 
+
   useEffect(() => {
     dispatch(addSelectedCompanies(companiesToDeleteIds));
   }, [companiesToDeleteIds, dispatch]);
 
+
   const handleCheckboxHeaderChange = () => {
     const newCheckedState = !isHeaderChecked;
-
     setIsHeaderChecked(newCheckedState);
 
     const newCheckedItems: { [key: number]: boolean } = {};
@@ -62,10 +62,12 @@ export default function CompanyTable({onSetPlaceholder}: CompanyTableProp) {
     }
   };
 
+
   const handleClickDeleteCompany = () => {
     dispatch(deleteCompany(companiesToDeleteIds));
     setCompaniesToDeleteIds([]);
   };
+
 
   useEffect(() => {
     if (isHeaderChecked) {

@@ -5,7 +5,7 @@ import { InitialState, Company } from '../store/companies-slice';
 import { updateCompanyField } from '../store/companies-slice';
 interface TableCellProps {
   className: string;
-  item: string | number;
+  item: string | number | undefined;
   editableClass: string;
   id?: number;
 }
@@ -19,8 +19,7 @@ export default function TableCell({
   const [newDataField, setNewDataField] = useState<string>('');
   const dispatch: AppDispatch = useDispatch();
   const { editable, companies } = useSelector(
-    (state: { companies: InitialState }) => state.companies
-  );
+    (state: { companies: InitialState }) => state.companies);
 
   const handleUpdate = () => {
     if (!editable) return
@@ -32,7 +31,7 @@ export default function TableCell({
 
       const copyCompany: Company | undefined = {
         ...findCompany()!,
-      };
+      }
 
 
       const updateCurrentCompanyCell = () => {
@@ -45,7 +44,6 @@ export default function TableCell({
       updateCurrentCompanyCell()
 
       dispatch(updateCompanyField(copyCompany));
-    
   };
 
   const [updateCell, setUpdateCell] = useState<boolean>(false);
